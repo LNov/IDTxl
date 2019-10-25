@@ -299,8 +299,11 @@ class MultivariateTE(NetworkInferenceTE, NetworkInferenceMultivariate):
                     self.selected_vars_target),
                 'selected_vars_sources': self._idx_to_lag(
                     self.selected_vars_sources),
+                'selected_vars_sources_non_signif': self._idx_to_lag(
+                    self.selected_vars_sources_non_signif),
                 'selected_sources_pval': self.pvalues_sign_sources,
                 'selected_sources_te': self.statistic_sign_sources,
+                'selected_sources_te_non_signif': self._selected_sources_te_non_signif,
                 'omnibus_te': self.statistic_omnibus,
                 'omnibus_pval': self.pvalue_omnibus,
                 'omnibus_sign': self.sign_omnibus,

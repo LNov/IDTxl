@@ -164,6 +164,10 @@ class NetworkInference(NetworkAnalysis):
             else:
                 if self.settings['verbose']:
                     print(' -- not significant')
+                self._store_selected_vars_non_signif(
+                    candidate_set,
+                    temp_te
+                    )
                 break
         return success
 
@@ -534,9 +538,12 @@ class NetworkInferenceBivariate(NetworkInference):
                     print('testing candidate: {0} '.format(
                         self._idx_to_lag([max_candidate])[0]), end='')
                 try:
+                    # deal with 'None' case
+                    skip_conditioning = (conditional_realisations is None)
                     significant = stats.max_statistic(
                         self, data, candidate_set,
-                        te_max_candidate, conditional_realisations)[0]
+                        te_max_candidate, conditional_realisations,
+                        skip_conditioning)[0]
                 except ex.AlgorithmExhaustedError as aee:
                     # The algorithm cannot continue here, so
                     #  we'll terminate the significance check for this candidate,

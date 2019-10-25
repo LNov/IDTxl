@@ -18,6 +18,8 @@ class NetworkAnalysis():
         self.current_value = None
         self.selected_vars_full = []
         self.selected_vars_sources = []
+        self.selected_vars_sources_non_signif = []
+        self.selected_sources_te_non_signif = []
         self.selected_vars_target = []
         self._current_value_realisations = None
         self._selected_vars_realisations = None
@@ -93,6 +95,20 @@ class NetworkAnalysis():
             raise TypeError(('Expected a list of tuples (index process, ' +
                              'index sample).'))
         self._selected_vars_sources = idx_list
+
+    @property
+    def selected_vars_sources_non_signif(self):
+        """List of indices of source samples in the conditional set."""
+        if self._selected_vars_sources_non_signif is None:
+            print('Attribute has not been set yet.')
+        return self._selected_vars_sources_non_signif
+
+    @selected_vars_sources_non_signif.setter
+    def selected_vars_sources_non_signif(self, idx_list):
+        if (idx_list is not None and type(idx_list) is not list):
+            raise TypeError(('Expected a list of tuples (index process, ' +
+                             'index sample).'))
+        self._selected_vars_sources_non_signif = idx_list
 
     @property
     def _selected_vars_realisations(self):
@@ -327,6 +343,19 @@ class NetworkAnalysis():
                 self.selected_vars_target.append(i)
             else:
                 self.selected_vars_sources.append(i)
+
+    def _store_selected_vars_non_signif(self, idx, te):
+        """Store indices and TE of non-significant varaibles.
+
+        Args:
+            idx : list of tuples
+                indices of non-significant variables, where each entry is a tuple
+                (idx process, idx sample), where indices are absolute values
+                with respect to entries in a data array
+            te : list of conditional TE values
+        """
+        self.selected_vars_sources_non_signif = idx
+        self._selected_sources_te_non_signif = te
 
     def _append_selected_vars(self, idx, realisations):
         """Append indices and realisation of selected variables.
