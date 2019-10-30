@@ -576,6 +576,10 @@ class NetworkInferenceBivariate(NetworkInference):
                 else:
                     if self.settings['verbose']:
                         print(' -- not significant')
+                    self._store_selected_vars_non_signif(
+                        candidate_set,
+                        temp_te
+                        )
                     break
         return success
 
